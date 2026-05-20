@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos de la Casa</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+
+   @layer base {
+
+     :root {
+
+      @apply text-sm;
+
+       line-height: 1.5;
+     }
+  }
+
+</style>
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vino: '#a11045',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white min-h-screen p-6">
+    <div class="max-w-2xl mx-auto">
+        
+        <h2 class="text-2xl font-bold text-vino mb-2">Gastos de la casa</h2>
+        <p class="text-gray-700 font-semibold mb-6">
+            
+        </p>
+        
+        <!-- Nombre y Apellidos -->
+        <div class="space-y-4 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <label for="nombre" class="sm:w-32 sm:text-right text-gray-700">
+                    Tu nombre:
+                </label>
+                <input 
+                    type="text" 
+                    id="nombre" 
+                    placeholder="Escribe tu nombre de pila"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino placeholder:text-red-300"
+                >
+            </div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <label for="apellidos" class="sm:w-32 sm:text-right text-gray-700">
+                    Apellido(s):
+                </label>
+                <input 
+                    type="text" 
+                    id="apellidos" 
+                    placeholder="Indica tu(s) apellido(s)"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino placeholder:text-red-300"
+                >
+            </div>
+        </div>
+        
+        <!-- Fieldset Gastos Fijos -->
+        <fieldset class="border-2 border-vino rounded-lg p-5 mb-6">
+            <legend class="bg-vino text-white px-4 py-1 rounded font-bold">
+                Gastos fijos
+            </legend>
+            
+            <div class="space-y-4 mt-2">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label for="internet" class="sm:w-32 sm:text-right text-gray-700">
+                        Internet:
+                    </label>
+                    <input 
+                        type="number" 
+                        id="internet" 
+                        value="50"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino"
+                    >
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label for="luz" class="sm:w-32 sm:text-right text-gray-700">
+                        Luz:
+                    </label>
+                    <input 
+                        type="number" 
+                        id="luz"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino"
+                    >
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label for="agua" class="sm:w-32 sm:text-right text-gray-700">
+                        Agua:
+                    </label>
+                    <input 
+                        type="number" 
+                        id="agua"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino"
+                    >
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label for="gas" class="sm:w-32 sm:text-right text-gray-700">
+                        Gas:
+                    </label>
+                    <input 
+                        type="number" 
+                        id="gas"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino"
+                    >
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <label for="alquiler" class="sm:w-32 sm:text-right text-gray-700">
+                        Alquiler:
+                    </label>
+                    <input 
+                        type="number" 
+                        id="alquiler"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-vino"
+                    >
+                </div>
+            </div>
+        </fieldset>
+        
+        <!-- Botones -->
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button 
+                onclick="calcularGastos()"
+                class="px-6 py-2 border-2 border-vino text-vino font-bold rounded hover:bg-vino hover:text-white transition-colors"
+            >
+                Calcular Gastos
+            </button>
+            <button 
+                onclick="rellenarDatos()"
+                class="px-6 py-2 border-2 border-vino text-vino font-bold rounded hover:bg-vino hover:text-white transition-colors"
+            >
+                Rellenar Datos
+            </button>
+        </div>
+        
+        <!-- Resultado -->
+        <div 
+            id="resultado" 
+            class="border-2 border-vino rounded p-4 min-h-[60px] bg-white"
+        ></div>
+        
+    </div>
+    
+    <script>
+        function calcularGastos() {
+            // Obtener valores (strings del HTML)
+            const nombre = document.getElementById('nombre').value;
+            const apellidos = document.getElementById('apellidos').value;
+            
+            // Convertir strings a números
+            const internet = parseFloat(document.getElementById('internet').value) || 0;
+            const luz = parseFloat(document.getElementById('luz').value) || 0;
+            const agua = parseFloat(document.getElementById('agua').value) || 0;
+            const gas = parseFloat(document.getElementById('gas').value) || 0;
+            const alquiler = parseFloat(document.getElementById('alquiler').value) || 0;
+            
+            // Calcular total
+            const total = internet + luz + agua + gas + alquiler;
+            
+            // Mostrar resultado
+            document.getElementById('resultado').innerHTML = `
+                <p class="font-bold text-vino mb-3">${nombre} ${apellidos}, tus gastos fijos mensuales son:</p>
+                <ul class="space-y-1 text-gray-700 mb-3">
+                    <li>Internet: <span class="font-medium">${internet.toFixed(2)} €</span></li>
+                    <li>Luz: <span class="font-medium">${luz.toFixed(2)} €</span></li>
+                    <li>Agua: <span class="font-medium">${agua.toFixed(2)} €</span></li>
+                    <li>Gas: <span class="font-medium">${gas.toFixed(2)} €</span></li>
+                    <li>Alquiler: <span class="font-medium">${alquiler.toFixed(2)} €</span></li>
+                </ul>
+                <p class="text-lg font-bold text-vino border-t pt-3">TOTAL: ${total.toFixed(2)} €</p>
+            `;
+        }
+        
+        function rellenarDatos() {
+            document.getElementById('nombre').value = 'Juan';
+            document.getElementById('apellidos').value = 'García López';
+            document.getElementById('internet').value = '50';
+            document.getElementById('luz').value = '85';
+            document.getElementById('agua').value = '30';
+            document.getElementById('gas').value = '45';
+            document.getElementById('alquiler').value = '800';
+        }
+    </script>
+</body>
+</html>
